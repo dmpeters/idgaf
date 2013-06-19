@@ -8,7 +8,7 @@
     <link href='http://fonts.googleapis.com/css?family=Lato:100|Josefin+Sans:100|Raleway:100' rel='stylesheet' type='text/css'>
     <style type="text/css">
         body {background-color: {{ bcolor }};}
-        h1 {font-size: 88px; font-family: {{ font }}, serif; color: {{ tcolor }};}
+        h1 {font-size: 88px; font-family: arial black; color: {{ tcolor }};}
         #page {margin: 12% auto; text-align: center; width: 60%;}
     </style>
 </head>
