@@ -1,20 +1,23 @@
 from bottle import error, get, route, run, static_file, template, debug
-
+from random import randrange
 
 # idgaf
 @route('/')
 @route('/<what>')
 def idgaf(what='seriously'):
-    import pdb; pdb.set_trace()
+    # import pdb; pdb.set_trace()
+    o = {}
 
     if what[0] == '-':
-        ughhh = 'idgaf ' + what.strip('-') + '!'
+        copy = 'idgaf ' + what.strip('-') + '!'
     else:
-        ughhh = what + ' idgaf!'
+        copy = what + ' idgaf!'
 
-    # fuuuu = template('index', ughhh=ughhh)
-    # return fuuuu
-    return ughhh
+    o['copy'] = copy.upper()
+    o['text_color'] = '#ffffff'
+    o['body_color'] = "%s" % "".join([hex(randrange(0, 255))[2:] for i in range(3)])
+
+    return template('index.html.tpl', o=o)
 
 
 # static
