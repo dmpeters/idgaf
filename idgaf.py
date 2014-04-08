@@ -3,7 +3,6 @@
 from bottle import error, get, route, run, static_file, template, debug
 from random import randrange, choice
 
-
 # idgaf
 @route('/')
 @route('/<what>')
@@ -12,10 +11,8 @@ def idgaf(what='seriously'):
         copy = 'idgaf ' + what.strip('-') + '!'
     else:
         copy = what + ' idgaf!'
-    copy = copy.upper()
-
     return template('index.html.tpl',
-                    copy=copy,
+                    copy=copy.upper(),
                     font=_choose_font(),
                     tcolor=_generate_colors('tcolor'),
                     bcolor=_generate_colors('bcolor'))
