@@ -15,8 +15,7 @@
 <body>
     <div id="page">
 
-    	<h1>{{ copy }}</h1>
-
+        <h1>{{ copy }}</h1>
         <div id="share">
             &nbsp;
         </div>

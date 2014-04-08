@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 from bottle import error, get, route, run, static_file, template, debug
 from random import randrange, choice
 
@@ -6,23 +8,17 @@ from random import randrange, choice
 @route('/')
 @route('/<what>')
 def idgaf(what='seriously'):
-    # import pdb; pdb.set_trace()
-
-    font_choices = ['Lato', 'Josefin Sans', 'Raleway']
-    font = choice(font_choices)
-
     if what[0] == '-':
         copy = 'idgaf ' + what.strip('-') + '!'
     else:
         copy = what + ' idgaf!'
     copy = copy.upper()
 
-    # Random color generator (http://pastebin.com/1XDgR45Q)
-    bcolor = "#%s" % "".join([hex(randrange(0, 255))[2:] for i in range(3)])
-    tcolor = "#%s" % "".join([hex(randrange(0, 128))[2:] for i in range(3)])
-
-    return template('index.html.tpl', copy=copy, font=font,
-                    tcolor=tcolor, bcolor=bcolor)
+    return template('index.html.tpl',
+                    copy=copy,
+                    font=_choose_font(),
+                    tcolor=_generate_colors('tcolor'),
+                    bcolor=_generate_colors('bcolor'))
 
 # static
 @get('/<file:re:.*\.css>')
@@ -33,11 +29,24 @@ def css(file):
 @error(404)
 @error(500)
 def error(code):
-    # Random color generator (http://pastebin.com/1XDgR45Q)
-    bcolor = "#%s" % "".join([hex(randrange(0, 255))[2:] for i in range(3)])
-    tcolor = "#%s" % "".join([hex(randrange(0, 128))[2:] for i in range(3)])
-    return template('index.html.tpl', copy='GFY!',
-                    tcolor=tcolor, bcolor=bcolor)
+    return template('index.html.tpl',
+                    copy='SERIOUSLY GFY!',
+                    font=_choose_font(),
+                    tcolor=_generate_colors('tcolor'),
+                    bcolor=_generate_colors('bcolor'))
+
+# private (helper) methods
+def _generate_colors(type):
+    if type=='bcolor':
+        return "#%s" % "".join([hex(randrange(0, 255))[2:] for i in range(3)])
+    if type=='tcolor':
+        return "#%s" % "".join([hex(randrange(0, 128))[2:] for i in range(3)])
+    colors = ['#FFFFFF', '#000000', '#FF0000', '0000FF', '#C0C0C0']
+    return choice(colors)
+
+def _choose_font():
+    font_choices = ['Lato', 'Josefin Sans', 'Raleway']
+    return choice(font_choices)
 
 # run
 # debug(True)
