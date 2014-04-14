@@ -1,8 +1,12 @@
 # idgaf
 
-a little idgaf app for a friend 
+a little idgaf app for a friend
 
-todo:
- - add ability for shorten url to mask for sharing
- - shorten url service should work with redis
- - use redis to cache as well, check first then create
+TODO:
+ - Config Redis
+ - Config Url
+ - Copy Url to Clipboard
+ - Tweet idgaf
+
+BUG:
+ - static should not go through @route first then @get

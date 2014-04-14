@@ -2,20 +2,36 @@
 # -*- coding: utf-8 -*-
 from bottle import error, get, route, run, static_file, template, debug
 from random import randrange, choice
+from string import ascii_letters, digits
+import redis
+
+# redis
+rdb = redis.StrictRedis(host='localhost', port=6379, db=0)
 
 # idgaf
 @route('/')
 @route('/<what>')
 def idgaf(what='seriously'):
-    if what[0] == '-':
-        copy = 'idgaf ' + what.strip('-') + '!'
+    if what[0] == '!':
+        copy = rdb.get(what)
+        surl = what
     else:
-        copy = what + ' idgaf!'
+        if what[0] == '-':
+            copy = 'idgaf ' + what.strip('-') + '!'
+        else:
+            copy = what + ' idgaf!'
+
+        # save to redis
+        surl = '!' + _short()
+        rdb.set(surl, copy)
+        rdb.expire(surl, 2600000)
+
     return template('index.html.tpl',
                     copy=copy.upper(),
                     font=_choose_font(),
                     tcolor=_generate_colors('tcolor'),
-                    bcolor=_generate_colors('bcolor'))
+                    bcolor=_generate_colors('bcolor'),
+                    surl=surl)
 
 # static
 @get('/<file:re:.*\.css>')
@@ -44,6 +60,9 @@ def _generate_colors(type):
 def _choose_font():
     font_choices = ['Lato', 'Josefin Sans', 'Raleway']
     return choice(font_choices)
+
+def _short():
+    return ''.join(choice(ascii_letters + digits) for x in range(6))
 
 # run
 # debug(True)

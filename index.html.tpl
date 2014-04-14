@@ -17,7 +17,7 @@
 
         <h1>{{ copy }}</h1>
         <div id="share">
-            &nbsp;
+            <p>http://127.0.0.1:8080/{{ surl }}</p>
         </div>
 
     </div>
